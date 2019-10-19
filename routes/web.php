@@ -11,6 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', function() { 
+	return redirect()->route('posts.index'); 
 });
+
+Route::resource('/posts', 'PostController');
+Route::resource('/categories', 'CategoryController');
+
+Route::get('/{type}/{id}/comments', 'CommentController@getComments');
+Route::post('/{type}/{id}/comments', 'CommentController@postComment');
