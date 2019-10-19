@@ -134,6 +134,7 @@ return [
         ],
     ],
 
+    'by_author' => 'Enter the full name of the author',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Attributes
