@@ -10,7 +10,7 @@ class Post extends Model
     	'name', 'content', 'file'
     ];
 
-	public function categories() {
+    public function categories() {
     	return $this->morphToMany(Category::class, 'categoryable');
     }
 
