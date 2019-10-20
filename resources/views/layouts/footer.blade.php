@@ -1,5 +1,4 @@
 <footer class="blog-footer mt-3 pt-2">
-
   	<div class="d-flex justify-content-around mt-3 ml-4">
 	  <h5 class="list-group-item pl-4" id="chrome">Chrome:&nbsp;</h5>
 	  <h5 class="list-group-item" id="opera">Opera:&nbsp;</h5>
@@ -11,12 +10,3 @@
     <a href="#" class="btn btn-primary">Back to top</a>
   </p>
 </footer>
-<script>
-	$.get('/browser', function(data) {
-		$('#chrome').append(data.countChrome);
-		$('#opera').append(data.countOpera);
-		$('#firefox').append(data.countFirefox);
-		$('#ie').append(data.countIE);
-		$('#others').append(data.others);
-	});
-</script>
