@@ -5,6 +5,7 @@
  */
 
 require('./bootstrap');
+require('./commentsAjax');
 
 window.Vue = require('vue');
 

@@ -9,12 +9,10 @@ let comments = document.querySelector('.comments'),
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     request.send();
     request.addEventListener('readystatechange', function() {
-        if(request.readyState < 4) {}
-        else if(request.readyState === 4 && request.status == 200) {
+        if(request.readyState === 4 && request.status === 200) {
             let data = JSON.parse(request.responseText)
             for( let index in data ) comments.prepend(cardComment(data, index));
-        } else console.log('Failure');
-        
+        }
     });
 })();
 
@@ -34,7 +32,7 @@ let comments = document.querySelector('.comments'),
             },
             error: function (errors) { 
                 postErrors(errors.responseJSON.errors, $('#commentform'));
-            } //error
+            }
         });
             
     });
@@ -81,10 +79,9 @@ function cardComment(data, index = false) {
         date.append(data.date);
         card_content.append(data.content);
     }
-    console.log(card);
 
     return card;    
-};
+}
 
 function postErrors(errors, formId) {
     $('#commerr').remove();
