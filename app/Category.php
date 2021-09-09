@@ -11,10 +11,10 @@ class Category extends Model
     ];
 
     public function comments() {
-    	return $this->morphMany(Comment::class, 'commentable');
+    	return $this->hasMany(Comment::class);
     }
 
     public function posts() {
-    	return $this->morphedByMany(Post::class, 'categoryable');
+    	return $this->hasMany(Post::class);
     }
 }
