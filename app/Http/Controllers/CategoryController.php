@@ -2,22 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Post;
 use App\Category;
 
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 
-use App\Services\StoreCategoryService as StoreCategory;
-use App\Services\UpdateCategoryService as UpdateCategory;
-use App\Services\DeletePostService as DeletePost;
-
 class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::paginate(10);
-        return view('categories.index', ['categories' => $categories]);
+        $categories = Category::query()->paginate(10);
+
+        return view('categories.index', compact('categories'));
     }
 
     public function create()
@@ -27,34 +23,37 @@ class CategoryController extends Controller
 
     public function store(StoreCategoryRequest $request)
     {
-        $category = StoreCategory::make($request);
-        return redirect()->route('categories.show', ['id' => $category->id]);
+        $category = Category::create($request->only('name', 'description'));
+
+        return redirect()->route('categories.show', $category);
     }
 
     public function show(Category $category)
     {
-        return view('categories.show', [
-            'posts' => $category->posts()->paginate(5),
-            'categories' => Category::get()
-        ]);
+        $categories = Category::all();
+        $posts = $category->posts()->paginate(5);
+
+        return view('categories.show', compact('posts', 'categories'));
     }
 
     public function edit(Category $category)
     {
-        return view('categories.edit', ['category'=>$category]);
+        return view('categories.edit', compact('category'));
     }
 
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        UpdateCategory::make($request, $category);
+        $category->update($request->only('name', 'description'));
+
         return redirect()->route('categories.index');
     }
 
     public function destroy(Category $category)
     {
-        DeletePost::dropAll($category->posts);
+        $category->posts()->delete();
         $category->comments()->delete();
         $category->delete();
+
         return redirect()->route('categories.index');
     }
 }
