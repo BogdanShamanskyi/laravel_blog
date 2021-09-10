@@ -8,29 +8,42 @@ use App\Category;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 
-use App\Services\StorePostService as StorePost;
+use App\Services\PostService;
 use App\Services\UpdatePostService as UpdatePost;
 use App\Services\DeletePostService as DeletePost;
 
 class PostController extends Controller
 {
+    /**
+     * @var PostService
+     */
+    private $postService;
+
+    public function __construct(PostService $postService)
+    {
+        $this->postService = $postService;
+    }
+
     public function index()
     {
-        return view('posts.index', [
-            'categories' => Category::get(),
-            'posts' => Post::paginate(5)
-        ]);
+        $posts = Post::query()->paginate(5);
+        $categories = Category::all();
+
+        return view('posts.index', compact('posts', 'categories'));
     }
 
     public function create()
     {
-        return view('posts.create', ['categories' => Category::get()]);
+        $categories = Category::all();
+
+        return view('posts.create', compact('categories'));
     }
 
     public function store(StorePostRequest $request)
     {
-        $post = StorePost::make($request);
-        return redirect()->route('posts.show', ['id'=> $post->id]);
+        $post = $this->postService->create($request->postData());
+
+        return redirect()->route('posts.show', $post);
     }
 
     public function show(Post $post)
