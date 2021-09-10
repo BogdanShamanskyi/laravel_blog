@@ -20,4 +20,25 @@ class StorePostRequest extends FormRequest
             'file' => 'max:2048'
         ];
     }
+
+    public function postData(): array
+    {
+        return [
+            'name' => $this->get('name'),
+            'content' => $this->get('content'),
+            'file' => $this->getFileName(),
+            'categories' => $this->input('categories')
+        ];
+    }
+
+    private function getFileName(): string
+    {
+        if($this->hasFile('file')) {
+            $file = $this->file('file');
+            $fileName = rand() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('PostsFiles'), $fileName);
+        }
+
+        return $fileName ?? '';
+    }
 }
