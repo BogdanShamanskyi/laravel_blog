@@ -62,7 +62,7 @@ class PostController extends Controller
 
     public function update(UpdatePostRequest $request, Post $post)
     {
-        $post = $this->postService->update($request->all(), $post);
+        $post = $this->postService->update($request, $post);
 
         return redirect()->route('posts.show', ['id'=> $post->id]);
     }
