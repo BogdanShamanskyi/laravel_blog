@@ -33,7 +33,7 @@ class CategoryController extends Controller
         $categories = Category::all();
         $posts = $category->posts()->paginate(5);
 
-        return view('categories.show', compact('posts', 'categories'));
+        return view('categories.show', compact('posts', 'categories', 'category'));
     }
 
     public function edit(Category $category)
