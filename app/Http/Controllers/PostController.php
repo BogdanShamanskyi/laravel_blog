@@ -48,10 +48,9 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        return view('posts.show', [
-            'post' => Post::find($post->id),
-            'categories'=>Category::get()
-        ]);
+        $categories = Category::all();
+
+        return view('posts.show', compact('post', 'categories'));
     }
 
     public function edit(Post $post)
@@ -63,7 +62,8 @@ class PostController extends Controller
 
     public function update(UpdatePostRequest $request, Post $post)
     {
-        $post = UpdatePost::make($request, $post);
+        $post = $this->postService->update($request->all(), $post);
+
         return redirect()->route('posts.show', ['id'=> $post->id]);
     }
 
