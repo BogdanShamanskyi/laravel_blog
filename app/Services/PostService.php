@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Requests\UpdatePostRequest;
 use App\Post;
+use Illuminate\Support\Facades\File;
 
 class PostService
 {
@@ -42,5 +43,13 @@ class PostService
         $post->categories()->attach($request->input('categories'));
 
         return $post;
+    }
+
+    public function delete(Post $post): void
+    {
+        File::delete(public_path('PostsFiles').'/'.$post->file);
+        $post->categories()->detach();
+        $post->comments()->delete();
+        $post->delete();
     }
 }
