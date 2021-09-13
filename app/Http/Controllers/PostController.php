@@ -64,7 +64,7 @@ class PostController extends Controller
     {
         $post = $this->postService->update($request, $post);
 
-        return redirect()->route('posts.show', ['id'=> $post->id]);
+        return redirect()->route('posts.show', $post);
     }
 
     public function destroy(Post $post)
