@@ -3,12 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostCommentRequest;
+use App\Services\CommentService;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
 use App\Comment;
 
 class CommentController extends Controller
 {
+    /**
+     * @var CommentService
+     */
+    private $commentService;
+
+    public function __construct(CommentService $commentService)
+    {
+        $this->commentService = $commentService;
+    }
+
     public function getComments($commentable_type, $commentable_id): Collection
     {
     	$comments = Comment::query()->where('commentable_id', $commentable_id);
@@ -21,14 +31,9 @@ class CommentController extends Controller
     	return $comments;
     }
 
-    public function postComment($type, $id, PostCommentRequest $request): Comment
+    public function postComment(PostCommentRequest $request, $type, $id): Comment
     {
-    	$comment = new Comment();
-    	$comment->author = $request->get('author');
-    	$comment->content = $request->get('content');
-    	$comment->commentable_id = $id;
-    	$comment->commentable_type = $type;
-    	$comment->save();
+        $comment = $this->commentService->create($request->commentData($type, $id));
     	$comment->date = $comment->created_at->diffForHumans();
 
     	return $comment;
