@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostCommentRequest;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Comment;
@@ -20,13 +21,8 @@ class CommentController extends Controller
     	return $comments;
     }
 
-    public function postComment($type, $id, Request $request): Comment
+    public function postComment($type, $id, PostCommentRequest $request): Comment
     {
-    	$this->validate($request, [
-    		'author' => 'required|by_author',
-    		'content' => 'required'
-    	]);
-
     	$comment = new Comment();
     	$comment->author = $request->get('author');
     	$comment->content = $request->get('content');
