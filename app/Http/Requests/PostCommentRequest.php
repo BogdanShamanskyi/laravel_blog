@@ -28,4 +28,14 @@ class PostCommentRequest extends FormRequest
             'content' => 'required',
         ];
     }
+
+    public function commentData(string $type, int $id): array
+    {
+        return [
+            'author' => $this->get('author'),
+            'content' => $this->get('content'),
+            'commentable_id' => $id,
+            'commentable_type' => $type
+        ];
+    }
 }
