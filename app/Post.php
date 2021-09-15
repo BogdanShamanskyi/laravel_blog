@@ -17,8 +17,8 @@ class Post extends Model
         return $this->belongsToMany(Category::class);
     }
 
-    public function comment()
+    public function comments()
     {
-        return $this->belongsTo(Comment::class);
+        return $this->hasMany(Comment::class);
     }
 }
