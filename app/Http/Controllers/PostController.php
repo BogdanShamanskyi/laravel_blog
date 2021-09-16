@@ -9,8 +9,6 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 
 use App\Services\PostService;
-use App\Services\UpdatePostService as UpdatePost;
-use App\Services\DeletePostService as DeletePost;
 
 class PostController extends Controller
 {
@@ -49,8 +47,9 @@ class PostController extends Controller
     public function show(Post $post)
     {
         $categories = Category::all();
+        $postCategories = $post->categories;
 
-        return view('posts.show', compact('post', 'categories'));
+        return view('posts.show', compact('post', 'categories', 'postCategories'));
     }
 
     public function edit(Post $post)
