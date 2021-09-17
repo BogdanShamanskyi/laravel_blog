@@ -1,43 +1,50 @@
-let comments = document.querySelector('.comments'),
-    form = document.getElementById('commentform'),
-    submit = document.getElementById('addComment'),
-    url = window.location.pathname + '/comments';
+document.addEventListener("DOMContentLoaded", function(event) {
+    let comments = document.querySelector('.comments'),
+        form = document.getElementById('commentform'),
+        submit = document.getElementById('addComment'),
+        url = window.location.pathname + '/comments';
 
-(function getComments() {
-    let request = new XMLHttpRequest();
-    request.open( 'GET', url );
-    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    request.send();
-    request.addEventListener('readystatechange', function() {
-        if(request.readyState === 4 && request.status === 200) {
-            let data = JSON.parse(request.responseText)
-            for( let index in data ) comments.prepend(cardComment(data, index));
-        }
-    });
-})();
+    (function getComments() {
+        let request = new XMLHttpRequest();
+        request.open('GET', url);
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        request.send();
+        request.addEventListener('readystatechange', function () {
+            if (request.readyState === 4 && request.status === 200) {
+                let data = JSON.parse(request.responseText);
 
-(function postComment() {
-    submit.addEventListener('click', (e)=> {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: url,
-            headers: {'X-CSRF-TOKEN': 'meta[name="csrf-token"]'},
-            data:  $('#commentform').serialize(),
-            success: function (data) {
-                comments.prepend(cardComment(data));
-                form.querySelectorAll('input')[1].value = '';
-                form.querySelector('textarea').value = '';
-                if(form.contains(document.getElementById('commerr'))) document.getElementById('commerr').remove();
-            },
-            error: function (errors) { 
-                postErrors(errors.responseJSON.errors, $('#commentform'));
+                for (let index in data) {
+                    comments.prepend(cardComment(data, index));
+                }
             }
         });
-            
-    });
-})();
+    })();
 
+    (function postComment() {
+        submit.addEventListener('click', (e) => {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: url,
+                headers: {'X-CSRF-TOKEN': 'meta[name="csrf-token"]'},
+                data: $('#commentform').serialize(),
+                success: function (data) {
+                    comments.prepend(cardComment(data));
+                    form.querySelectorAll('input')[1].value = '';
+                    form.querySelector('textarea').value = '';
+
+                    if (form.contains(document.getElementById('commerr'))) {
+                        document.getElementById('commerr').remove();
+                    }
+                },
+                error: function (errors) {
+                    postErrors(errors.responseJSON.errors, $('#commentform'));
+                }
+            });
+
+        });
+    })();
+});
 
 function cardComment(data, index = false) {
     let card = document.createElement('div'),
