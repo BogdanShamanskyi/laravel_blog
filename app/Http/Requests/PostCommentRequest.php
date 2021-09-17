@@ -29,13 +29,12 @@ class PostCommentRequest extends FormRequest
         ];
     }
 
-    public function commentData(string $type, int $id): array
+    public function commentData(int $id): array
     {
         return [
             'author' => $this->get('author'),
             'content' => $this->get('content'),
-            'commentable_id' => $id,
-            'commentable_type' => $type
+            'post_id' => $id
         ];
     }
 }
