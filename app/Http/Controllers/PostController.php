@@ -24,8 +24,8 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::query()->paginate(5);
         $categories = Category::all();
+        $posts = Post::query()->with('categories')->paginate(5);
 
         return view('posts.index', compact('posts', 'categories'));
     }
@@ -44,12 +44,12 @@ class PostController extends Controller
         return redirect()->route('posts.show', $post);
     }
 
-    public function show(Post $post)
+    public function show(int $id)
     {
         $categories = Category::all();
-        $postCategories = $post->categories;
+        $post = Post::query()->where('id', $id)->first()->load('categories');
 
-        return view('posts.show', compact('post', 'categories', 'postCategories'));
+        return view('posts.show', compact('post', 'categories'));
     }
 
     public function edit(Post $post)
