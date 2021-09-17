@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Services\CommentService;
 use Illuminate\Database\Eloquent\Collection;
-use App\Comment;
-
 
 class CommentController extends Controller
 {
@@ -21,12 +19,6 @@ class CommentController extends Controller
 
     public function getPostComments(int $id): Collection
     {
-        $comments = Comment::query()->where('post_id', $id)->get();
-
-        foreach($comments as $comment) {
-            $comment->date = $comment->created_at->diffForHumans();
-        }
-
-        return $comments;
+        return $this->commentService->getPostComments($id);
     }
 }
