@@ -5,13 +5,13 @@
 	@include('layouts.sidebar')
 	<div class="col-md-8 blog-main">
 		@forelse($posts as $post)
-			<?php $content = mb_substr($post->content, 0, 400) ?>
+			@php($content = mb_substr($post->content, 0, 400))
 			@include('posts.partials.post')
 		@empty
 			<h2 class="text-center text-muted">Here is empty yet</h2>
 		@endforelse
 		<div class="d-flex justify-content-center">
-			<p>{{$posts->links()}}</p>
+			<p>{{ $posts->links() }}</p>
 		</div>
 	</div>
 

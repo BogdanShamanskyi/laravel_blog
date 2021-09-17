@@ -8,7 +8,7 @@
 			    	<i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;Created:&nbsp;{{ $post->updated_at->format('M d, Y') }}
 			    </li>
 
-		  	@foreach($postCategories as $category)
+		  	@foreach($post->categories as $category)
 			   	<li class="breadcrumb-item">
 			   	 	<a href="{{ route('categories.show', $category) }}">
 			   	 		{{ $category->name ?? '' }}
@@ -46,9 +46,7 @@
 			<a href="{{ asset('postsfiles') }}/{{ $post->file }}"
 			   download="{{ $post->file }}"
 			   class="btn btn-warning">
-
 				<i class="fa fa-file"></i>&nbsp;Download file
-
 			</a>
 		</p>
 	@endif
