@@ -18,11 +18,5 @@ Route::get('/', function() {
 Route::resource('/posts', 'PostController');
 Route::resource('/categories', 'CategoryController');
 
-Route::get('/posts/{id}/comments', 'CommentController@getPostComments')->name('get.post.comments');
-Route::post('/posts/{id}/comments', 'CommentController@savePostComment')->name('save.post.comment');
-
-Route::get('/categories/{id}/comments', 'CommentController@getCategory')->name('get.category.comments');
-Route::post('/categories/{id}/comments', 'CommentController@postCategory')->name('save.category.comment');
-
 Route::get('/{type}/{id}/comments', 'CommentController@getComments');
 Route::post('/{type}/{id}/comments', 'CommentController@postComment');
