@@ -44,10 +44,10 @@ class PostController extends Controller
         return redirect()->route('posts.show', $post);
     }
 
-    public function show(int $id)
+    public function show(Post $post)
     {
         $categories = Category::all();
-        $post = Post::query()->where('id', $id)->first()->load('categories');
+        $post = $post ? $post->load('categories') : null;
 
         return view('posts.show', compact('post', 'categories'));
     }
