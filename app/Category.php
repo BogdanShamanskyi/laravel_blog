@@ -10,11 +10,13 @@ class Category extends Model
     	'name', 'description'
     ];
 
-    public function comments() {
-    	return $this->hasMany(Comment::class);
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
-    public function posts() {
+    public function posts()
+    {
     	return $this->belongsToMany(Post::class);
     }
 }
