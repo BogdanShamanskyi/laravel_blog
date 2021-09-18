@@ -12,9 +12,12 @@ class CommentService
         return Comment::create($data);
     }
 
-    public function getPostComments(int $id): Collection
+    public function get(int $id, string $type): Collection
     {
-        $comments = Comment::query()->where('post_id', $id)->get();
+        $comments = Comment::query()
+            ->where('commentable_id', $id)
+            ->where('commentable_type', $type)
+            ->get();
 
         foreach($comments as $comment) {
             $comment->date = $comment->created_at->diffForHumans();
