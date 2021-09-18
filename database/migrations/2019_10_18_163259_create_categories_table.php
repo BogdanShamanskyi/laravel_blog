@@ -17,7 +17,6 @@ class CreateCategoriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->text('description')->nullable();
-            $table->unsignedBigInteger('comment_id')->nullable();
             $table->timestamps();
         });
     }
