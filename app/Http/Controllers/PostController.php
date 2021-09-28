@@ -25,7 +25,8 @@ class PostController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $posts = Post::query()->with('categories')->paginate(5);
+
+        $posts = Post::query()->with('categories')->paginate(30);
 
         return view('posts.index', compact('posts', 'categories'));
     }
